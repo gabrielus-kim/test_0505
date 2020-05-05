@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__,
             static_folder='static',
@@ -9,7 +9,9 @@ app.config['DEBUG']=True
 
 @app.route('/')
 def index():
+    content='login 해주세요.'
 
-    return "welcome ~ Pythone. 2020.5.5"
+    return render_template('template.html',
+                            content=content)
 
 app.run(port=8000)
