@@ -70,4 +70,60 @@ def logout():
     session.pop('owner',None)
     return redirect('/')
 
+@app.route('/join', methods=['GET', 'POST'])
+def join():
+    content=''
+    if request.method == 'POST':
+        cur=db.cursor()
+        cur.execute(f"""
+            select name from author where name='{request.form['id']}'
+        """)
+        user=cur.fetchone()
+        if user is None:
+            if request.form['id'] == '':
+                content='회원 가입시 id 을 입력해 주세요'
+                return render_template('join.html',
+                                        content=content) 
+            elif request.form['pw'] == '':
+                content='회원가입시 password 을 입력해 주세요'
+                return render_template('join.html',
+                                    content=content)           
+            else:
+                cur=db.cursor()
+                sql=f"""
+                    insert into author (name, profile, password)
+                    values('{request.form['id']}','{request.form['pf']}',
+                        SHA2('{request.form['pw']}',256))
+                    """
+                cur.execute(sql)
+                db.commit()
+                return redirect('/')
+        else:
+            content='이미 회원가입한 ID 입니다.'
+    return render_template('join.html',
+                            content=content
+    )
+
+@app.route('/withdraw', methods=['GET','POST'])
+def withdraw():
+    content=''
+    if request.method == "POST":
+        cur=db.cursor()
+        cur.execute(f"""
+            select name from author where name='{request.form['id']}'
+        """)
+        user=cur.fetchone()
+        if user is None:
+            content='가입한 id 가 아닙니다.'
+        else:
+            cur=db.cursor()
+            cur.execute(f"""
+                delete from author where name='{request.form['id']}'
+            """)
+            db.commit()
+            return redirect('/')
+
+    return render_template('withdraw.html',
+                        content=content)
+
 app.run(port=8000)
