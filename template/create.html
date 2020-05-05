@@ -10,6 +10,12 @@
             <a href='/login'>login</a><a href='/logout'>        logout</a><a href='/join'>            site_join</a><a href='/withdraw'>    site_withdraw</a><br>
             <a href='/create'>menu_create</a><a href='/delete'>     menu_delete</a>
         </pre>
+
+        <form action='/create' method='POST'>
+            <p><input type='text' name='title' placeholder="menu title"></p>
+            <p><textarea  name='desc' placeholder="title content"></textarea></p>
+            <p><button type='submit'>register</button></p>
+        </form>
         <ol>
             {{ menu | safe}}
         </ol>
