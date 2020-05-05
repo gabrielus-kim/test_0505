@@ -19,6 +19,22 @@ app.config['ENV']='development'
 app.config['DEBUG']=True
 app.secret_key='who are you?'
 
+def get_menu():
+    cur=db.cursor()
+    cur.execute(f"""
+        select id, title from topic
+    """)
+    menu_all=cur.fetchall()
+    menu=[]
+    for row in menu_all:
+       menu.append(f"""
+        <li><a href='/{row['id']}'>{row['title']}</a></li>
+       """)
+        
+
+
+    return "\n".join(menu)
+
 @app.route('/')
 def index():
     content='Python study을 위한 menu 관리'
@@ -29,7 +45,10 @@ def index():
 
     return render_template('template.html',
                             owner=owner,
+                            menu=get_menu(),
                             content=content)
+
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():

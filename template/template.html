@@ -7,6 +7,10 @@
     <body>
         <h1><a href='/'>Welcome Python ~ {{ owner }}</a></h1>
 
+        <ol>
+            {{ menu | safe}}
+        </ol>
+
         <a href='/login'>login</a>
         <a href='/logout'>logout</a>
         <br><br>
