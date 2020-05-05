@@ -8,7 +8,7 @@
         <h1><a href='/'>Welcome Python ~ {{ owner }}</a></h1>
         <pre>
             <a href='/login'>login</a><a href='/logout'>        logout</a><a href='/join'>            site_join</a><a href='/withdraw'>    site_withdraw</a><br>
-            <a href='/create'>menu_create</a><a href='/delete'>     menu_delete</a>
+            <a href='/create'>menu_create</a><a href='/delete/{{ id }}'>     menu_delete</a>
         </pre>
         <ol>
             {{ menu | safe}}

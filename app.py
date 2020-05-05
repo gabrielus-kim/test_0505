@@ -43,6 +43,7 @@ def index():
 
     return render_template('template.html',
                             owner=owner,
+                            id = '0',
                             menu=get_menu(),
                             content=content)
 
@@ -62,6 +63,7 @@ def html(id):
 
     return render_template('template.html',
                         owner = owner,
+                        id=topic['id'],
                         title= topic['title'] ,
                         menu=get_menu(),
                         content=topic['description']
@@ -87,11 +89,18 @@ def create():
         """)
         db.commit()
         return redirect('/')
-
-    
     return render_template('create.html',
                             owner=owner,
                             menu=get_menu())
+
+@app.route('/delete/<id>')
+def delete(id):
+    cur=db.cursor()
+    cur.execute(f"""
+        delete from topic where id='{id}'
+    """)
+    db.commit()
+    return redirect('/')
 
 @app.route('/login', methods=['GET','POST'])
 def login():
