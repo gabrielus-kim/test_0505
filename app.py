@@ -21,7 +21,7 @@ app.secret_key='who are you?'
 
 @app.route('/')
 def index():
-    content=''
+    content='Python study을 위한 menu 관리'
     if 'owner' in session:
         owner=session['owner']['name']
     else:
@@ -33,7 +33,13 @@ def index():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    content='login 해주세요.'
+    if 'owner' in session:
+        content='login 상태 입니다.'
+        return render_template('template.html',
+                            owner=session['owner']['name'],
+                            content=content)
+    else:
+        content='login 해주세요.'
     if request.method == 'POST':
         cur=db.cursor()
         cur.execute(f"""
